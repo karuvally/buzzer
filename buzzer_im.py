@@ -19,7 +19,7 @@ def watch_notifier(directory, ignore_path):
 
     class EventHandler(pyinotify.ProcessEvent):
         def process_IN_ACCESS(self, event): # function for file access event
-            time_stamp = datetime.now().strftime('%H:%M:%S') # get time
+            time_stamp = datetime.now().strftime('%H:%M:%S:%f') # get time
             
             if event.pathname not in ignore_path: # ignore the master keyboard
                 if event.pathname not in processed_inputs:
