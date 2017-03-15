@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# buzzer, improved (release 150317-1940)
+# buzzer, improved (release 150317-2250)
 # released under GNU General Public License
 # Copyright 2017, Aswin Babu K
 
@@ -13,6 +13,7 @@ import subprocess # very useful to invoke *NIX commands
 
 # function using Notifier class
 def watch_notifier(directory, ignore_path):
+    processed_inputs = []
     watch_manager = pyinotify.WatchManager() # add watch
     mask = pyinotify.IN_ACCESS # watch for dev file access
 
@@ -21,9 +22,11 @@ def watch_notifier(directory, ignore_path):
             time_stamp = datetime.now().strftime('%H:%M:%S') # get time
             
             if event.pathname not in ignore_path: # ignore the master keyboard
-                subprocess.call('beep -f 500 -l 50', shell=True)
-                print(time_stamp, ': ', event.pathname)
-                return;
+                if event.pathname not in processed_inputs:
+                    subprocess.call('beep -f 500 -l 50', shell=True) # buzzer
+                    print(time_stamp, ': ', event.pathname)
+                    processed_inputs.append(event.pathname)
+                    return;
 
     handler = EventHandler()
     notifier = pyinotify.Notifier(watch_manager, handler)
