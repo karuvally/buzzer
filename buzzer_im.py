@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# buzzer, improved (release 150317-2250)
+# buzzer, improved (release 150317-2312)
 # released under GNU General Public License
 # Copyright 2017, Aswin Babu K
 
@@ -24,7 +24,8 @@ def watch_notifier(directory, ignore_path):
             if event.pathname not in ignore_path: # ignore the master keyboard
                 if event.pathname not in processed_inputs:
                     subprocess.call('beep -f 500 -l 50', shell=True) # buzzer
-                    print(time_stamp, ': ', event.pathname)
+                    print('time:', time_stamp, '\tdevice:', event.pathname)
+                    
                     processed_inputs.append(event.pathname)
                     return;
 
