@@ -12,7 +12,7 @@ import subprocess # very useful to invoke *NIX commands
 
 
 # function using Notifier class
-def watch_notifier(directory, master_keyboard, mouse):
+def watch_notifier(directory, ignore_path):
     watch_manager = pyinotify.WatchManager() # add watch
     mask = pyinotify.IN_ACCESS # watch for dev file access
 
@@ -20,11 +20,7 @@ def watch_notifier(directory, master_keyboard, mouse):
         def process_IN_ACCESS(self, event): # function for file access event
             time_stamp = datetime.now().strftime('%H:%M:%S') # get time
             
-            if event.pathname == master_keyboard: # ignore the master keyboard
-                return;
-            elif event.pathname == mouse : #ignore mouse
-                return;
-            else:
+            if event.pathname not in ignore_path: # ignore the master keyboard
                 print(time_stamp, ': ', event.pathname)
                 return;
 
@@ -36,14 +32,19 @@ def watch_notifier(directory, master_keyboard, mouse):
 
 # this function is supposed to handle things when time expires
 def handler(signum, frame):
-    print("Timeout")
+    print("Timeout") # this is printed when the program exits
     raise Exception("time expired")
 
 
 # the main function
 def main():
-    master_keyboard = '/dev/input/event1' # host keyboard to be ignored
-    mouse = '/dev/input/event9' # host mouse to be ignored
+    # below two variables exist for ease of access
+    master_keyboard = '/dev/input/event1' # keyboard which coordinator controls
+    mouse = '/dev/input/event9' # mouse of the computer
+
+    # paths to be ignored
+    ignore_path = ['/dev/input/by-id', '/dev/input/by-path',
+                    master_keyboard, mouse]
 
     subprocess.call('stty -echo', shell=True) # turns off keyboard echo
     subprocess.call('clear', shell=True) # clears the terminal window
@@ -53,11 +54,9 @@ def main():
     signal.alarm(10) # raise alarm after 10 seconds
 
     try:
-        watch_notifier('/dev/input', master_keyboard, mouse) # start watching
+        watch_notifier('/dev/input', ignore_path) # start watching
     except Exception:
-        pass # exception is raised when timeout happens
-
-    subprocess.call('stty echo', shell=True) # turn on echo
+        subprocess.call('stty echo', shell=True) # turns on echo
 
 
 # call the main function
