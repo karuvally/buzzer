@@ -8,7 +8,7 @@
 import pyinotify # monitor the FS. In our case, input devices
 from datetime import datetime # for creating time stamps
 import signal # helps to kill the program after x seconds
-import subprocess # used to call 'clear' command
+import subprocess # very useful to invoke *NIX commands
 
 
 # function using Notifier class
@@ -32,12 +32,14 @@ def watch_notifier(directory, master_keyboard):
 # this function is supposed to handle things when time expires
 def handler(signum, frame):
     print("Timeout")
+    subprocess.call('stty echo', shell=True) # turn on echo
     raise Exception("time expired")
 
 
 # the main function
 def main():
-    subprocess.call('clear') # clears the terminal window
+    subprocess.call('stty -echo', shell=True) # turns off keyboard echo
+    subprocess.call('clear', shell=True) # clears the terminal window
 
     signal.signal(signal.SIGALRM, handler) # set signal and handler function
     signal.alarm(10) # raise alarm after 10 seconds
