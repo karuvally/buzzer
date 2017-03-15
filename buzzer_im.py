@@ -8,6 +8,7 @@
 import pyinotify # monitor the FS. In our case, input devices
 from datetime import datetime # for creating time stamps
 import signal # helps to kill the program after x seconds
+import subprocess # used to call 'clear' command
 
 
 # function using Notifier class
@@ -34,19 +35,17 @@ def handler(signum, frame):
     raise Exception("time expired")
 
 
-# call watch_notifier function
-# watch_notifier('/dev/input', '/dev/input/event1') # io dir, ignore device
-
-
 # the main function
 def main():
-    signal.signal(signal.SIGALRM, handler)
-    signal.alarm(5)
+    subprocess.call('clear') # clears the terminal window
+
+    signal.signal(signal.SIGALRM, handler) # set signal and handler function
+    signal.alarm(10) # raise alarm after 10 seconds
 
     try:
-        watch_notifier('/dev/input', '/dev/input/event1')
+        watch_notifier('/dev/input', '/dev/input/event1') # start watching
     except Exception:
-        pass
+        pass # exception is raised when timeout happens
 
 
 # call the main function
