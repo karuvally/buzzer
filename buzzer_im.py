@@ -21,6 +21,7 @@ def watch_notifier(directory, ignore_path):
             time_stamp = datetime.now().strftime('%H:%M:%S') # get time
             
             if event.pathname not in ignore_path: # ignore the master keyboard
+                subprocess.call('beep -f 500 -l 50', shell=True)
                 print(time_stamp, ': ', event.pathname)
                 return;
 
@@ -56,6 +57,10 @@ def main():
     try:
         watch_notifier('/dev/input', ignore_path) # start watching
     except Exception:
+        #use the beep command to generate phaser sound
+        subprocess.call('n=3000; while [ $n -gt 400 ];\
+                        do beep -f $n -l 10; n=$((n*97/100));\
+                        done', shell=True)
         subprocess.call('stty echo', shell=True) # turns on echo
 
 
