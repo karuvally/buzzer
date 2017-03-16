@@ -65,9 +65,7 @@ def main():
         watch_notifier('/dev/input', ignore_path) # start watching
     except Exception:
         #use the beep command to generate phaser sound
-        subprocess.call('n=3000; while [ $n -gt 400 ];\
-                        do beep -f $n -l 10; n=$((n*97/100));\
-                        done', shell=True)
+        subprocess.call('aplay -q timeout.wav', shell=True)
         subprocess.call('stty echo', shell=True) # turns on echo
 
 
