@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# buzzer, improved (release 150317-2325)
+# buzzer, improved (release 160317-2052)
 # released under GNU General Public License
 # Copyright 2017, Aswin Babu K
 
