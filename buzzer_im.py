@@ -9,13 +9,11 @@ import pyinotify # monitor the FS. In our case, input devices
 from datetime import datetime # for creating time stamps
 import signal # helps to kill the program after x seconds
 import subprocess # very useful to invoke *NIX commands
-import os # call the deprecated os.system call
-
+import os # for debugging purposes
 
 # function using Notifier class
 def watch_notifier(directory, ignore_path):
     processed_inputs = []
-    initial_press = 1
 
     watch_manager = pyinotify.WatchManager() # add watch
     mask = pyinotify.IN_ACCESS # watch for dev file access
@@ -25,13 +23,13 @@ def watch_notifier(directory, ignore_path):
             time_stamp = datetime.now().strftime('%H:%M:%S:%f') # get time
             
             if event.pathname not in ignore_path: # ignore the master keyboard
-                if event.pathname not in processed_inputs: #ignore already pressed
-                    subprocess.call('aplay -q beep.wav', shell=True) # buzz
-                    print('time:', time_stamp, '\tdevice:', event.pathname)
-                    
-                    processed_inputs.append(event.pathname)
-                    return;
+                if event.pathname not in processed_inputs: # ignore pressed
+                    subprocess.call('aplay -q beep.wav&', shell=True) # buzz
 
+                    print('time:', time_stamp, '\tdevice:', event.pathname)
+                    processed_inputs.append(event.pathname)
+
+    # the below code initializes watching the fs
     handler = EventHandler()
     notifier = pyinotify.Notifier(watch_manager, handler)
     wd_dict = watch_manager.add_watch(directory, mask, rec=True)
