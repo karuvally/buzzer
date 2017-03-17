@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
-# buzzer, improved (release 160317-2052)
+# buzzer, improved (release 170317-1045)
 # released under GNU General Public License
 # Copyright 2017, Aswin Babu K
+
+
+# ATTENTION!
+# configure amixer (lines 76 and 33) as per your sound card
+# configure keyboard event IDs
 
 
 # import all the serious stuff
