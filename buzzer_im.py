@@ -73,7 +73,7 @@ def main():
         #use the beep command to generate phaser sound
         subprocess.call('aplay -q timeout.wav', shell=True)
         subprocess.call('stty echo', shell=True) # turns on echo
-        subprocess.call('amixer -q -c 0 set Master unmute&', shell=True)
+        subprocess.call('amixer -q -c 0 set Master unmute&', shell=True) # unmute
 
 
 # call the main function
