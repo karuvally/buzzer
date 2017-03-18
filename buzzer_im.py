@@ -5,7 +5,7 @@
 
 
 # ATTENTION!
-# configure amixer (lines 76 and 33) as per your sound card
+# configure amixer '-c' switch argument as per your soundcard
 # configure keyboard event IDs
 
 
