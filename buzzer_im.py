@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# buzzer, improved (release 170317-1045)
+# buzzer, improved (release 180118-0945)
 # released under GNU General Public License
-# Copyright 2017, Aswin Babu K
+# Copyright 2017, 2018 Aswin Babu K
 
 
 # ATTENTION!
@@ -30,8 +30,8 @@ def watch_notifier(directory, ignore_path):
             if event.pathname not in ignore_path: # ignore the master keyboard
                 if event.pathname not in processed_inputs: # ignore pressed
                     subprocess.call('aplay -q beep.wav&', shell=True) # buzz
-                    subprocess.call('sleep .5 && amixer -q -c 0 set Master mute&',
-                                    shell=True) # mute the output
+                    subprocess.call('sleep .5 && amixer -q -c 0 set Master 0%',
+                                    shell=True) # reduce volume to 0%
 
                     print('time:', time_stamp, '\tdevice:', event.pathname)
                     processed_inputs.append(event.pathname)
@@ -60,7 +60,7 @@ def main():
                     master_keyboard, mouse]
 
     subprocess.call('stty -echo', shell=True) # turns off keyboard echo
-    #subprocess.call('amixer -q -c 0 set Master unmute&', shell=True)
+    subprocess.call('amixer -q -c 0 set Master 100%', shell=True)
     subprocess.call('clear', shell=True) # clears the terminal window
     print("Time starts") # very useful for identifying individual questions
 
@@ -73,7 +73,7 @@ def main():
         #use the beep command to generate phaser sound
         subprocess.call('aplay -q timeout.wav', shell=True)
         subprocess.call('stty echo', shell=True) # turns on echo
-        subprocess.call('amixer -q -c 0 set Master unmute&', shell=True) # unmute
+        subprocess.call('amixer -q -c 0 set Master 100%', shell=True) # unmute
 
 
 # call the main function
