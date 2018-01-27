@@ -1,0 +1,2 @@
+/dev/input/event6
+/dev/input/event4

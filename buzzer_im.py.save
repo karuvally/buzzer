@@ -49,6 +49,9 @@ def watch_notifier(directory, ignore_path, output_file):
 # this function is supposed to handle things when time expires
 def handler(signum, frame):
     print("Timeout") # this is printed when the program exits
+    output = []
+    print(output)
+    print 
     raise Exception("time expired")
 
 
@@ -57,6 +60,7 @@ def main():
     flag=0
     mflag=0
     # below two variables exist for ease of access
+    output = []
      
   
 
@@ -127,13 +131,14 @@ n = open("tempdisp","w")
 def setup():
     os.system("python3 test.py")
 def show():
-    temp ='\n'
+    temp =''
     n = open("tempdisp","w")
     for i in range (0,len(output)):
         temp = temp +output[i][-1]+'\n'
-    messagebox.showinfo("Result",temp)
-    for i in range (0,len(output)):
-        output.pop()
+    n.write(temp)
+    n.close()
+    os.system("python3 disp.py")
+
 root = Tk()
 
 #size of the window
