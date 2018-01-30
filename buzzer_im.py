@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-# buzzer, improved (release 180118-0945)
+# buzzer, improved (release 180130-2010)
 # released under GNU General Public License
-# Copyright 2017, 2018 Aswin Babu K
+# Copyright 2017 Aswin Babu K
+# Copyright 2017, 2018 Aswin Babu K, Richu Shaji Abraham
 
 import threading
 # ATTENTION!
